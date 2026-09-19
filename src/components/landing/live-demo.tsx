@@ -55,53 +55,76 @@ export function LiveDemo() {
       </div>
 
       <div className="mt-7 grid gap-6 md:grid-cols-[minmax(0,340px)_minmax(0,1fr)] items-start">
-        {/* Photo Container with layered glass effect */}
-        <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/70 dark:border-white/15 bg-muted shadow-[0_16px_36px_-8px_rgba(0,0,0,0.15)] dark:shadow-[0_16px_36px_-8px_rgba(0,0,0,0.5)]">
-          <img
-            key={sample.src}
-            src={sample.src}
-            alt={`${sample.plant} sample leaf`}
-            loading="lazy"
-            decoding="async"
-            width={768}
-            height={768}
-            className="h-full w-full object-cover"
-          />
-          {step === 1 && (
-            <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-fern/80 via-fern/40 to-transparent motion-safe:animate-[scan-sweep_2s_linear_infinite]" />
-          )}
-          {step >= 2 &&
-            sample.leaves.map((leaf, idx) => (
-              <span
-                key={`leaf-${idx}`}
-                className="absolute animate-fade-in rounded-md border-2"
-                style={{
-                  ...boxStyle({
-                    x: leaf.x / 100,
-                    y: leaf.y / 100,
-                    w: leaf.w / 100,
-                    h: leaf.h / 100,
-                  }),
-                  borderColor: leaf.healthy ? "var(--fern)" : "var(--coral)",
-                  animationDelay: `${idx * 160}ms`,
-                }}
-              >
+        {/* Photo Container with iOS Frosted Glass Framing & 3D Depth */}
+        <div className="group relative aspect-square overflow-hidden rounded-3xl p-2 bg-gradient-to-b from-white/60 to-white/20 dark:from-white/15 dark:to-white/5 border border-white/80 dark:border-white/20 backdrop-blur-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] motion-safe:animate-[float-drift_6s_ease-in-out_infinite]">
+          <div className="relative h-full w-full overflow-hidden rounded-2xl bg-muted/60">
+            <img
+              key={sample.src}
+              src={sample.src}
+              alt={`${sample.plant} sample leaf`}
+              loading="lazy"
+              decoding="async"
+              width={768}
+              height={768}
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+
+            {/* Specular top-edge glass sheen */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-white/25 via-white/5 to-transparent dark:from-white/15" />
+
+            {/* Scan Beam */}
+            {step === 1 && (
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-fern/80 via-fern/30 to-transparent motion-safe:animate-[scan-sweep_2s_linear_infinite]" />
+            )}
+
+            {/* 3D AR Augmented Glass Bounding Boxes */}
+            {step >= 2 &&
+              sample.leaves.map((leaf, idx) => (
                 <span
-                  className="absolute left-0 top-0 rounded-br-md rounded-tl-sm px-1.5 text-[11px] font-bold text-white shadow-sm"
-                  style={{ backgroundColor: leaf.healthy ? "var(--fern)" : "var(--coral)" }}
+                  key={`leaf-${idx}`}
+                  className="absolute animate-fade-in rounded-xl border-2 backdrop-blur-[1.5px] transition-all duration-300"
+                  style={{
+                    ...boxStyle({
+                      x: leaf.x / 100,
+                      y: leaf.y / 100,
+                      w: leaf.w / 100,
+                      h: leaf.h / 100,
+                    }),
+                    borderColor: leaf.healthy ? "rgba(47, 122, 63, 0.9)" : "rgba(225, 29, 72, 0.9)",
+                    backgroundColor: leaf.healthy
+                      ? "rgba(47, 122, 63, 0.08)"
+                      : "rgba(225, 29, 72, 0.08)",
+                    boxShadow: leaf.healthy
+                      ? "0 0 16px rgba(47, 122, 63, 0.25), inset 0 0 8px rgba(47, 122, 63, 0.15)"
+                      : "0 0 16px rgba(225, 29, 72, 0.25), inset 0 0 8px rgba(225, 29, 72, 0.15)",
+                    animationDelay: `${idx * 160}ms`,
+                  }}
                 >
-                  {idx + 1}
+                  {/* 3D Glass Bead Number Pill */}
+                  <span
+                    className="absolute -left-1 -top-1 flex size-6 items-center justify-center rounded-lg text-[11px] font-extrabold text-white shadow-[0_4px_10px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.7)]"
+                    style={{
+                      background: leaf.healthy
+                        ? "linear-gradient(135deg, #34d399 0%, #059669 100%)"
+                        : "linear-gradient(135deg, #fb7185 0%, #e11d48 100%)",
+                      border: "1px solid rgba(255, 255, 255, 0.8)",
+                    }}
+                  >
+                    {idx + 1}
+                  </span>
                 </span>
-              </span>
-            ))}
-          {step >= 4 &&
-            sample.hotspots.map((h, idx) => (
-              <span
-                key={idx}
-                className="absolute rounded-full border-2 border-coral bg-coral/25 shadow-[0_0_12px_rgba(244,63,94,0.6)] motion-safe:animate-[pulse-soft_2s_ease-in-out_infinite]"
-                style={spotStyle({ x: h.x / 100, y: h.y / 100, r: h.r / 100 })}
-              />
-            ))}
+              ))}
+
+            {/* Disease Hotspots / Water Magnifier Spot */}
+            {step >= 4 &&
+              sample.hotspots.map((h, idx) => (
+                <span
+                  key={idx}
+                  className="absolute rounded-full border-2 border-coral/90 bg-coral/25 shadow-[0_0_16px_rgba(244,63,94,0.7),inset_0_0_8px_rgba(255,255,255,0.4)] backdrop-blur-[2px] motion-safe:animate-[pulse-soft_2s_ease-in-out_infinite]"
+                  style={spotStyle({ x: h.x / 100, y: h.y / 100, r: h.r / 100 })}
+                />
+              ))}
+          </div>
         </div>
 
         {/* Stacked Glass Step Carousel List */}
@@ -116,16 +139,18 @@ export function LiveDemo() {
                 key={s.key}
                 className={`relative flex items-center justify-between gap-3.5 rounded-2xl border px-4 py-3 transition-all duration-300 ${
                   active
-                    ? "border-emerald-500/50 bg-white/85 dark:bg-emerald-950/40 text-foreground shadow-[0_8px_24px_-4px_rgba(47,122,63,0.22),inset_0_1px_1px_rgba(255,255,255,0.9)] backdrop-blur-xl -translate-y-0.5"
+                    ? "border-emerald-500/60 bg-gradient-to-r from-white/90 via-emerald-50/70 to-white/90 dark:from-slate-900/90 dark:via-emerald-950/50 dark:to-slate-900/90 text-foreground shadow-[0_12px_28px_-6px_rgba(47,122,63,0.28),inset_0_1px_2px_rgba(255,255,255,0.95)] backdrop-blur-2xl -translate-y-0.5"
                     : passed
-                      ? "border-white/50 dark:border-white/10 bg-white/50 dark:bg-white/5 text-muted-foreground backdrop-blur-md"
+                      ? "border-white/60 dark:border-white/10 bg-white/60 dark:bg-white/5 text-muted-foreground backdrop-blur-md shadow-sm"
                       : "border-white/30 dark:border-white/5 bg-white/30 dark:bg-white/5 text-muted-foreground/70 backdrop-blur-sm"
                 }`}
               >
                 <div className="flex items-center gap-3.5 min-w-0">
                   <span
                     className={`glass-icon-3d size-8 shrink-0 rounded-xl transition-all duration-300 ${
-                      active ? "animate-[water-ripple_1.2s_ease-out]" : ""
+                      active
+                        ? "animate-[water-ripple_1.4s_ease-out] ring-2 ring-emerald-500/30"
+                        : ""
                     }`}
                   >
                     {passed ? (
@@ -162,14 +187,14 @@ export function LiveDemo() {
           })}
 
           {done && (
-            <li className="animate-fade-in rounded-2xl border border-white/80 dark:border-white/15 bg-white/90 dark:bg-slate-900/85 p-4 shadow-[0_12px_28px_-6px_rgba(0,0,0,0.15),inset_0_1px_1px_rgba(255,255,255,0.9)] backdrop-blur-2xl">
+            <li className="animate-fade-in rounded-2xl border border-white/80 dark:border-white/15 bg-white/90 dark:bg-slate-900/85 p-4 shadow-[0_16px_32px_-6px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.95)] backdrop-blur-2xl">
               <div className="flex items-center justify-between">
                 <p className="text-lg font-extrabold text-foreground">{sample.plant}</p>
                 <span
-                  className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
+                  className={`rounded-full px-2.5 py-0.5 text-xs font-bold border shadow-xs ${
                     sample.healthy
-                      ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
-                      : "bg-coral/15 text-coral"
+                      ? "border-emerald-500/30 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                      : "border-coral/30 bg-coral/15 text-coral"
                   }`}
                 >
                   {sample.disease}
@@ -177,7 +202,7 @@ export function LiveDemo() {
               </div>
               <div className="mt-2.5 h-2 overflow-hidden rounded-full bg-muted">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 motion-safe:animate-[grow-x_1s_ease-out]"
+                  className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.5)] motion-safe:animate-[grow-x_1s_ease-out]"
                   style={{ width: `${sample.confidence}%` }}
                 />
               </div>
