@@ -93,17 +93,30 @@ export function LiveDemo() {
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="iot-telemetry-badge">
+              <span className="iot-radar-ping size-2 mr-1">
+                <span className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
+              </span>
+              SMART IOT PIPELINE
+            </span>
+            <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
+              AUTO-STREAM V2.4
+            </span>
+          </div>
+          <h2 className="text-xl font-extrabold tracking-tight text-foreground sm:text-2xl font-['Outfit']">
             Live AI demo
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Sample leaves run through the same steps your photo does in real time.
           </p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
-          <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-          Autonomous pipeline
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold font-mono text-emerald-700 dark:text-emerald-300">
+            <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+            Autonomous Pipeline · Active
+          </span>
+        </div>
       </div>
 
       <div className="mt-7 grid gap-8 md:grid-cols-[minmax(0,360px)_minmax(0,1fr)] items-start">
@@ -135,6 +148,18 @@ export function LiveDemo() {
                 background: `radial-gradient(circle 240px at ${tilt.glareX}% ${tilt.glareY}%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.2) 40%, transparent 75%)`,
               }}
             />
+
+            {/* Scientific Corner Reticles */}
+            <div className="pointer-events-none absolute inset-3 z-30 flex flex-col justify-between text-[9px] font-mono text-emerald-600/75 dark:text-emerald-400/75 select-none">
+              <div className="flex justify-between">
+                <span>[ SAMPLE_ID: #0{sampleIndex + 1} ]</span>
+                <span>[ BAND: 780nm-NIR ]</span>
+              </div>
+              <div className="flex justify-between">
+                <span>[ STATUS: {STEPS[step]?.label.toUpperCase()} ]</span>
+                <span>[ IOT_GRID: ACTIVE ]</span>
+              </div>
+            </div>
 
             {/* Moving Prismatic Reflection Sheen */}
             <div className="pointer-events-none absolute inset-0 z-10 opacity-30 mix-blend-color-dodge motion-safe:animate-[prismatic-shift_12s_ease-in-out_infinite]" />
@@ -186,7 +211,7 @@ export function LiveDemo() {
                   >
                     {/* 3D Glass Bead Number Pill with Glare Spot */}
                     <span
-                      className="absolute -left-1.5 -top-1.5 flex size-6 items-center justify-center rounded-lg text-[11px] font-extrabold text-white shadow-[0_6px_14px_rgba(0,0,0,0.35),inset_0_1.5px_2px_rgba(255,255,255,0.85)]"
+                      className="absolute -left-1.5 -top-1.5 flex size-6 items-center justify-center rounded-lg text-[11px] font-extrabold font-mono text-white shadow-[0_6px_14px_rgba(0,0,0,0.35),inset_0_1.5px_2px_rgba(255,255,255,0.85)]"
                       style={{
                         background: leaf.healthy
                           ? "linear-gradient(135deg, #34d399 0%, #059669 100%)"
@@ -215,7 +240,7 @@ export function LiveDemo() {
           </div>
         </div>
 
-        {/* Stacked Glass Step Carousel List with Tactile Interactions */}
+        {/* Stacked Glass Step Carousel List with PlantAI Smart IoT Styling */}
         <ol className="space-y-3">
           {STEPS.map((s, idx) => {
             const Icon = s.icon;
@@ -255,13 +280,18 @@ export function LiveDemo() {
                       />
                     )}
                   </span>
-                  <span
-                    className={`text-sm font-semibold truncate ${
-                      active ? "text-foreground font-bold" : ""
-                    }`}
-                  >
-                    {s.label}
-                  </span>
+                  <div className="min-w-0">
+                    <span className="block text-[10px] font-mono font-medium text-emerald-600/80 dark:text-emerald-400/80 uppercase">
+                      STAGE 0{idx + 1}
+                    </span>
+                    <span
+                      className={`text-sm font-semibold truncate ${
+                        active ? "text-foreground font-bold" : ""
+                      }`}
+                    >
+                      {s.label}
+                    </span>
+                  </div>
                 </div>
 
                 {active && (

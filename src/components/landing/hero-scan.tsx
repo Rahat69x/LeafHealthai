@@ -94,20 +94,53 @@ export function HeroScan({ title, text }: { title: string; text: string }) {
     >
       <FloatingBg />
 
-      <div className="relative grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
+      <div className="relative grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)]">
         <div className="min-w-0">
-          {/* iOS-Style Pill Badge */}
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/70 dark:border-white/15 bg-white/75 dark:bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-foreground shadow-[0_4px_16px_-2px_rgba(47,122,63,0.15)] backdrop-blur-xl">
-            <span className="glass-icon-3d size-5 shrink-0 rounded-full">
-              <Sparkles className="size-3 text-fern-ink dark:text-fern" aria-hidden />
+          {/* PlantAI Smart IOT Status Badge */}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="iot-telemetry-badge shadow-xs">
+              <span className="iot-radar-ping size-2 mr-1">
+                <span className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
+              </span>
+              PlantAI Smart IoT · Live Telemetry
             </span>
-            <span>AI leaf diagnosis in seconds</span>
-          </span>
+            <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono text-muted-foreground/80">
+              <span className="text-emerald-500 font-bold">NODE_09:</span> ONLINE
+            </span>
+          </div>
 
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl">
+          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-5xl font-['Outfit']">
             {title}
           </h1>
-          <p className="mt-4 max-w-xl text-base text-muted-foreground sm:text-lg">{text}</p>
+          <p className="mt-4 max-w-xl text-base text-muted-foreground sm:text-lg leading-relaxed">
+            {text}
+          </p>
+
+          {/* PlantAI Quick Telemetry Bar */}
+          <div className="mt-6 flex flex-wrap items-center gap-4 py-3 px-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/60 dark:border-white/10 backdrop-blur-md max-w-xl">
+            <div className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-mono font-semibold text-foreground">
+                Sensors:{" "}
+                <span className="text-emerald-600 dark:text-emerald-400">4,820 Active</span>
+              </span>
+            </div>
+            <span className="text-border">|</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono text-muted-foreground">
+                Accuracy: <span className="font-semibold text-foreground">99.4%</span>
+              </span>
+            </div>
+            <span className="text-border hidden sm:inline">|</span>
+            <div className="hidden sm:flex items-center gap-2">
+              <span className="text-xs font-mono text-muted-foreground">
+                Latency:{" "}
+                <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                  &lt;1.2s
+                </span>
+              </span>
+            </div>
+          </div>
 
           <div className="mt-8 flex flex-wrap gap-3.5">
             <Button asChild size="lg" variant="default" className="shadow-lg">
@@ -121,18 +154,56 @@ export function HeroScan({ title, text }: { title: string; text: string }) {
           </div>
         </div>
 
-        {/* 3D Parallax Photo Card Container with Layered Optics */}
-        <div ref={cardRef} className="relative mx-auto w-full max-w-[390px] py-4">
+        {/* 3D Parallax Photo Card Container with Layered PlantAI IoT Optics */}
+        <div ref={cardRef} className="relative mx-auto w-full max-w-[420px] py-4">
           {/* Layer 0: Dynamic Inverted Contact Ground Shadow */}
           <div
-            className="pointer-events-none absolute -bottom-3 inset-x-10 h-8 rounded-full bg-emerald-950/20 dark:bg-black/50 blur-xl motion-safe:animate-[dynamic-ground-shadow_7.5s_cubic-bezier(0.45,0.05,0.25,0.95)_infinite]"
+            className="pointer-events-none absolute -bottom-3 inset-x-12 h-8 rounded-full bg-emerald-950/25 dark:bg-black/60 blur-xl motion-safe:animate-[dynamic-ground-shadow_7.5s_cubic-bezier(0.45,0.05,0.25,0.95)_infinite]"
             style={{
               transform: `translate3d(${tilt.x * -0.7}px, ${tilt.y * -0.7}px, 0)`,
             }}
           />
 
           {/* Layer 1: Ambient Caustic Glow */}
-          <div className="pointer-events-none absolute -inset-3 rounded-3xl bg-gradient-to-tr from-emerald-500/20 via-teal-500/20 to-lime-500/20 blur-2xl opacity-75 dark:opacity-45" />
+          <div className="pointer-events-none absolute -inset-4 rounded-3xl bg-gradient-to-tr from-emerald-500/25 via-teal-500/20 to-lime-500/20 blur-2xl opacity-80 dark:opacity-50" />
+
+          {/* Floating IoT Satellite Widget: Soil Moisture (Top-Left Parallax) */}
+          <div
+            className="hidden sm:flex absolute -left-6 top-8 z-40 items-center gap-2.5 rounded-2xl border border-white/85 dark:border-white/20 bg-white/90 dark:bg-slate-900/90 py-2 px-3 shadow-[0_12px_28px_-6px_rgba(0,0,0,0.18)] backdrop-blur-2xl transition-transform duration-300"
+            style={{
+              transform: `translate3d(${tilt.x * 0.4}px, ${tilt.y * 0.4}px, 20px)`,
+            }}
+          >
+            <div className="size-7 rounded-xl bg-emerald-500/15 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+              <span className="text-xs font-bold">💧</span>
+            </div>
+            <div>
+              <p className="text-[10px] font-mono uppercase text-muted-foreground">Soil Moisture</p>
+              <p className="text-xs font-bold font-mono text-foreground">
+                68.4% <span className="text-[10px] text-emerald-500 font-normal">Optimal</span>
+              </p>
+            </div>
+          </div>
+
+          {/* Floating IoT Satellite Widget: Chlorophyll Density (Bottom-Right Parallax) */}
+          <div
+            className="hidden sm:flex absolute -right-6 bottom-10 z-40 items-center gap-2.5 rounded-2xl border border-white/85 dark:border-white/20 bg-white/90 dark:bg-slate-900/90 py-2 px-3 shadow-[0_12px_28px_-6px_rgba(0,0,0,0.18)] backdrop-blur-2xl transition-transform duration-300"
+            style={{
+              transform: `translate3d(${tilt.x * -0.5}px, ${tilt.y * -0.5}px, 20px)`,
+            }}
+          >
+            <div className="size-7 rounded-xl bg-emerald-500/15 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+              <span className="text-xs font-bold">🌿</span>
+            </div>
+            <div>
+              <p className="text-[10px] font-mono uppercase text-muted-foreground">
+                Chlorophyll Index
+              </p>
+              <p className="text-xs font-bold font-mono text-emerald-600 dark:text-emerald-400">
+                94.2% <span className="text-[10px] text-muted-foreground font-normal">NDVI</span>
+              </p>
+            </div>
+          </div>
 
           {/* Layer 2: 3D Frosted Glass Bezel */}
           <div
@@ -140,7 +211,7 @@ export function HeroScan({ title, text }: { title: string; text: string }) {
               transform: `perspective(1000px) rotateY(${tilt.x}deg) rotateX(${tilt.y}deg)`,
               transformStyle: "preserve-3d",
             }}
-            className="group relative aspect-square overflow-hidden rounded-3xl p-2.5 bg-gradient-to-b from-white/75 via-white/45 to-white/20 dark:from-white/18 dark:via-white/10 dark:to-white/5 border border-white/85 dark:border-white/20 backdrop-blur-2xl shadow-[0_26px_58px_-12px_rgba(0,0,0,0.2)] dark:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.7)] motion-safe:animate-[float-liquid-3d_7.5s_cubic-bezier(0.45,0.05,0.25,0.95)_infinite]"
+            className="group relative aspect-square overflow-hidden rounded-3xl p-2.5 bg-gradient-to-b from-white/80 via-white/50 to-white/25 dark:from-white/20 dark:via-white/10 dark:to-white/5 border border-white/90 dark:border-white/20 backdrop-blur-2xl shadow-[0_28px_64px_-12px_rgba(0,0,0,0.22)] dark:shadow-[0_32px_76px_-15px_rgba(0,0,0,0.75)] motion-safe:animate-[float-liquid-3d_7.5s_cubic-bezier(0.45,0.05,0.25,0.95)_infinite]"
           >
             {/* Dynamic Interactive Specular Refraction Glare */}
             <div
@@ -149,6 +220,18 @@ export function HeroScan({ title, text }: { title: string; text: string }) {
                 background: `radial-gradient(circle 260px at ${tilt.glareX}% ${tilt.glareY}%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 40%, transparent 75%)`,
               }}
             />
+
+            {/* Scientific HUD Viewfinder Crosshairs in Corners */}
+            <div className="pointer-events-none absolute inset-4 z-30 flex flex-col justify-between text-[9px] font-mono text-emerald-600/70 dark:text-emerald-400/70 select-none">
+              <div className="flex justify-between">
+                <span>[ +01 // PLANT_AI ]</span>
+                <span>[ LAT: 23.81°N ]</span>
+              </div>
+              <div className="flex justify-between">
+                <span>[ NIR_BAND: 780nm ]</span>
+                <span>[ IOT_TELEMETRY: OK ]</span>
+              </div>
+            </div>
 
             <div className="relative h-full w-full overflow-hidden rounded-2xl bg-muted/60">
               <img
@@ -166,7 +249,7 @@ export function HeroScan({ title, text }: { title: string; text: string }) {
               {/* Scan animation line */}
               {phase === "scan" && (
                 <>
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-emerald-400/90 via-emerald-500/40 to-transparent motion-safe:animate-[scan-sweep_2.4s_ease-in-out_infinite]" />
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-emerald-400/95 via-emerald-500/40 to-transparent motion-safe:animate-[scan-sweep_2.4s_ease-in-out_infinite]" />
                   <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_calc(100%_-_1px),color-mix(in_oklab,var(--color-fern)_35%,transparent)_100%)] bg-[length:100%_18px] opacity-40" />
                 </>
               )}
@@ -208,7 +291,7 @@ export function HeroScan({ title, text }: { title: string; text: string }) {
                       <Leaf className="size-4 text-fern-ink dark:text-fern" aria-hidden />
                     )}
                   </span>
-                  <span className="text-xs font-bold tracking-tight text-foreground truncate">
+                  <span className="text-xs font-bold tracking-tight text-foreground truncate font-mono">
                     {step}
                   </span>
                 </div>
@@ -225,7 +308,7 @@ export function HeroScan({ title, text }: { title: string; text: string }) {
                     <p className="text-sm font-bold text-foreground">
                       {sample.plant} · {sample.disease}
                     </p>
-                    <span className="rounded-full border border-emerald-500/30 bg-emerald-500/18 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-300">
+                    <span className="rounded-full border border-emerald-500/30 bg-emerald-500/18 px-2.5 py-0.5 text-[11px] font-bold font-mono text-emerald-700 dark:text-emerald-300">
                       {sample.confidence}% match
                     </span>
                   </div>

@@ -49,9 +49,15 @@ export function SiteHeader() {
           <span className="glass-icon-3d size-10 shrink-0 rounded-2xl transition-transform duration-200 group-hover:scale-105">
             <Leaf className="size-5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
           </span>
-          <span className="truncate text-lg font-extrabold tracking-tight text-foreground">
-            {t("brand")}
-          </span>
+          <div className="min-w-0">
+            <span className="block truncate text-lg font-extrabold tracking-tight text-foreground font-['Outfit']">
+              {t("brand")}
+            </span>
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-[9px] font-mono font-semibold text-emerald-600 dark:text-emerald-400 tracking-wider">
+              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              SMART IOT ACTIVE
+            </span>
+          </div>
         </Link>
 
         <div className="flex shrink-0 items-center gap-2">
