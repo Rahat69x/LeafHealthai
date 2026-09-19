@@ -153,88 +153,99 @@ input {
   outline-offset: 2px;
 }
 
-/* --- iOS-Style Liquid Glass & 3D treatment --- */
+/* --- iOS-Style Liquid Glass & Premium 3D Optics --- */
 .ios-glass-card {
   position: relative;
   background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
   box-shadow:
-    0 20px 40px -15px rgba(0, 0, 0, 0.07),
-    0 0 0 1px rgba(255, 255, 255, 0.4) inset,
-    0 1px 2px 0 rgba(255, 255, 255, 0.8) inset;
+    0 24px 48px -12px rgba(0, 0, 0, 0.08),
+    0 8px 24px -4px rgba(47, 122, 63, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.95) inset;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .dark .ios-glass-card {
-  background: rgba(22, 34, 25, 0.68);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(20, 34, 24, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
-    0 25px 50px -12px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-    0 1px 2px 0 rgba(255, 255, 255, 0.2) inset;
+    0 28px 56px -14px rgba(0, 0, 0, 0.55),
+    0 8px 24px -4px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.09) inset,
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.28) inset;
 }
 
 .ios-glass-panel {
   position: relative;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(32px) saturate(210%);
+  -webkit-backdrop-filter: blur(32px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow:
-    0 24px 48px -12px rgba(0, 0, 0, 0.1),
-    0 4px 16px -2px rgba(47, 122, 63, 0.08),
-    0 1px 1px 0 rgba(255, 255, 255, 0.9) inset;
+    0 30px 60px -15px rgba(0, 0, 0, 0.12),
+    0 6px 20px -2px rgba(47, 122, 63, 0.1),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.95) inset,
+    0 -1px 2px 0 rgba(0, 0, 0, 0.03) inset;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .dark .ios-glass-panel {
-  background: rgba(18, 30, 22, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(16, 28, 20, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow:
-    0 24px 48px -12px rgba(0, 0, 0, 0.5),
-    0 4px 20px -2px rgba(0, 0, 0, 0.3),
-    0 1px 1px 0 rgba(255, 255, 255, 0.25) inset;
+    0 30px 60px -15px rgba(0, 0, 0, 0.6),
+    0 6px 24px -2px rgba(0, 0, 0, 0.4),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.3) inset;
 }
 
 .ios-glass-pill {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow:
-    0 8px 20px -4px rgba(0, 0, 0, 0.08),
-    0 1px 1px 0 rgba(255, 255, 255, 0.8) inset;
+    0 10px 24px -4px rgba(0, 0, 0, 0.09),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.9) inset;
 }
 
 .dark .ios-glass-pill {
-  background: rgba(20, 32, 24, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(20, 32, 24, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow:
-    0 8px 24px -4px rgba(0, 0, 0, 0.4),
-    0 1px 1px 0 rgba(255, 255, 255, 0.2) inset;
+    0 10px 28px -4px rgba(0, 0, 0, 0.45),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.25) inset;
 }
 
+/* 3D Glass Bead Icon with Glare Spot */
 .glass-icon-3d {
   position: relative;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(240, 253, 244, 0.5) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(220, 252, 231, 0.6) 100%);
   box-shadow:
-    0 4px 12px -2px rgba(47, 122, 63, 0.2),
-    0 1px 2px 0 rgba(255, 255, 255, 0.9) inset,
-    0 -1px 2px 0 rgba(0, 0, 0, 0.05) inset;
-  border: 1px solid rgba(255, 255, 255, 0.7);
+    0 6px 16px -2px rgba(47, 122, 63, 0.25),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.95) inset,
+    0 -1px 2px 0 rgba(0, 0, 0, 0.06) inset;
+  border: 1px solid rgba(255, 255, 255, 0.8);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark .glass-icon-3d {
-  background: linear-gradient(135deg, rgba(47, 122, 63, 0.4) 0%, rgba(20, 38, 26, 0.6) 100%);
+  background: linear-gradient(135deg, rgba(47, 122, 63, 0.5) 0%, rgba(16, 34, 22, 0.75) 100%);
   box-shadow:
-    0 4px 14px -2px rgba(0, 0, 0, 0.4),
-    0 1px 2px 0 rgba(255, 255, 255, 0.3) inset,
-    0 -1px 2px 0 rgba(0, 0, 0, 0.3) inset;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+    0 6px 18px -2px rgba(0, 0, 0, 0.5),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.35) inset,
+    0 -1px 2px 0 rgba(0, 0, 0, 0.35) inset;
+  border: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 .glass-icon-3d::after {
@@ -242,22 +253,40 @@ input {
   position: absolute;
   top: 2px;
   left: 3px;
-  width: 35%;
-  height: 25%;
+  width: 38%;
+  height: 28%;
   border-radius: 9999px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 100%);
   pointer-events: none;
+}
+
+/* iOS Specular Shimmer Layer */
+.ios-specular-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 30%,
+    rgba(255, 255, 255, 0.45) 45%,
+    rgba(255, 255, 255, 0.15) 60%,
+    transparent 100%
+  );
+  opacity: 0.7;
+  mix-blend-mode: overlay;
+  transition: opacity 0.4s ease;
 }
 
 /* iOS squish feedback */
 .ios-squish {
   transition:
-    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
+    transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.24s ease;
 }
 .ios-squish:active {
-  transform: scale(0.96);
+  transform: scale(0.96) translateZ(0);
   transition-duration: 0.08s;
 }
 
@@ -267,76 +296,80 @@ input {
   overflow: hidden;
   background: linear-gradient(180deg, oklch(0.58 0.15 145) 0%, oklch(0.46 0.13 145) 100%);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow:
-    0 10px 25px -4px rgba(47, 122, 63, 0.45),
+    0 12px 28px -4px rgba(47, 122, 63, 0.48),
     0 2px 6px 0 rgba(0, 0, 0, 0.1),
-    0 1px 1px 0 rgba(255, 255, 255, 0.4) inset;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.5) inset;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 .ios-btn-primary::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 60%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 65%);
   pointer-events: none;
 }
 .ios-btn-primary:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2.5px) scale(1.01) translateZ(0);
   box-shadow:
-    0 16px 32px -4px rgba(47, 122, 63, 0.55),
-    0 4px 10px 0 rgba(0, 0, 0, 0.15),
-    0 1px 2px 0 rgba(255, 255, 255, 0.5) inset;
+    0 18px 36px -4px rgba(47, 122, 63, 0.6),
+    0 4px 12px 0 rgba(0, 0, 0, 0.15),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.6) inset;
 }
 .ios-btn-primary:active {
-  transform: scale(0.96) translateY(0);
+  transform: scale(0.96) translateY(0) translateZ(0);
   box-shadow:
     0 6px 16px -2px rgba(47, 122, 63, 0.4),
     0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  transition-duration: 0.08s;
 }
 
 /* iOS Secondary Glass Button */
 .ios-btn-secondary {
   position: relative;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   color: var(--color-foreground);
   box-shadow:
-    0 8px 20px -4px rgba(0, 0, 0, 0.06),
-    0 1px 1px 0 rgba(255, 255, 255, 0.7) inset;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    0 10px 24px -4px rgba(0, 0, 0, 0.08),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.8) inset;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 .dark .ios-btn-secondary {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow:
-    0 8px 24px -4px rgba(0, 0, 0, 0.3),
-    0 1px 1px 0 rgba(255, 255, 255, 0.15) inset;
+    0 10px 28px -4px rgba(0, 0, 0, 0.35),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.2) inset;
 }
 .ios-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.9);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.92);
+  transform: translateY(-2.5px) scale(1.01) translateZ(0);
   box-shadow:
-    0 14px 28px -4px rgba(0, 0, 0, 0.1),
-    0 1px 2px 0 rgba(255, 255, 255, 0.9) inset;
+    0 16px 32px -4px rgba(0, 0, 0, 0.12),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.95) inset;
 }
 .dark .ios-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.18);
   box-shadow:
-    0 14px 30px -4px rgba(0, 0, 0, 0.4),
-    0 1px 2px 0 rgba(255, 255, 255, 0.25) inset;
+    0 16px 34px -4px rgba(0, 0, 0, 0.45),
+    0 1.5px 2px 0 rgba(255, 255, 255, 0.3) inset;
 }
 .ios-btn-secondary:active {
-  transform: scale(0.96) translateY(0);
+  transform: scale(0.96) translateY(0) translateZ(0);
+  transition-duration: 0.08s;
 }
 
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(8px) translateZ(0);
   }
   to {
     opacity: 1;
@@ -344,73 +377,135 @@ input {
   }
 }
 .animate-fade-in {
-  animation: fade-in 0.3s ease-out;
+  animation: fade-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Water Ripple Animation */
+/* High-Fidelity Water Ripple Animation */
 @keyframes water-ripple {
   0% {
-    transform: scale(0.96);
-    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+    transform: scale(0.94) translateZ(0);
+    box-shadow:
+      0 0 0 0 rgba(52, 211, 153, 0.75),
+      0 0 0 0 rgba(16, 185, 129, 0.4);
   }
-  50% {
-    box-shadow: 0 0 0 10px rgba(74, 222, 128, 0.3);
+  45% {
+    box-shadow:
+      0 0 0 10px rgba(52, 211, 153, 0.35),
+      0 0 0 18px rgba(16, 185, 129, 0.18);
   }
   100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 18px rgba(74, 222, 128, 0);
+    transform: scale(1) translateZ(0);
+    box-shadow:
+      0 0 0 22px rgba(52, 211, 153, 0),
+      0 0 0 32px rgba(16, 185, 129, 0);
+  }
+}
+
+/* Organic 3D Floating Drift with Micro-Yaw and Pitch */
+@keyframes float-liquid-3d {
+  0%,
+  100% {
+    transform: translate3d(0, 0px, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translate3d(2px, -7px, 8px) rotateX(1.2deg) rotateY(-0.8deg) rotateZ(0.3deg);
+  }
+  50% {
+    transform: translate3d(0px, -13px, 16px) rotateX(0.4deg) rotateY(1.4deg) rotateZ(-0.4deg);
+  }
+  75% {
+    transform: translate3d(-2px, -6px, 8px) rotateX(-1deg) rotateY(-0.6deg) rotateZ(0.2deg);
+  }
+}
+
+/* Dynamic Inverted Contact Ground Shadow */
+@keyframes dynamic-ground-shadow {
+  0%,
+  100% {
+    transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+    opacity: 0.65;
+    filter: blur(14px);
+  }
+  50% {
+    transform: scale3d(0.85, 0.8, 1) translate3d(0, 16px, 0);
+    opacity: 0.3;
+    filter: blur(24px);
+  }
+}
+
+/* Moving Specular Glare Reflection */
+@keyframes specular-drift {
+  0%,
+  100% {
+    transform: translate3d(-30%, -20%, 0) rotate(25deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate3d(30%, 20%, 0) rotate(35deg);
+    opacity: 0.65;
+  }
+}
+
+/* Prismatic Chromatic Dispersion Shift */
+@keyframes prismatic-shift {
+  0%,
+  100% {
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    filter: hue-rotate(25deg);
   }
 }
 
 @keyframes float-drift {
   0%,
   100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translate3d(0, 0px, 0) rotate(0deg);
   }
   50% {
-    transform: translateY(-7px) rotate(0.4deg);
+    transform: translate3d(0, -9px, 0) rotate(0.4deg);
   }
 }
 
 @keyframes float-drift-gentle {
   0%,
   100% {
-    transform: translateY(0px);
+    transform: translate3d(0, 0px, 0);
   }
   50% {
-    transform: translateY(-5px);
+    transform: translate3d(0, -6px, 0);
   }
 }
 
 @keyframes blob-breathe {
   0%,
   100% {
-    transform: scale(1) translate3d(0, 0, 0);
-    opacity: 0.45;
+    transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+    opacity: 0.4;
   }
   50% {
-    transform: scale(1.15) translate3d(25px, -30px, 0);
-    opacity: 0.75;
+    transform: scale3d(1.18, 1.15, 1) translate3d(24px, -28px, 0);
+    opacity: 0.72;
   }
 }
 
 @keyframes scan-sweep {
   0% {
-    transform: translateY(-100%);
+    transform: translate3d(0, -100%, 0);
   }
   100% {
-    transform: translateY(1000%);
+    transform: translate3d(0, 1000%, 0);
   }
 }
 @keyframes pulse-soft {
   0%,
   100% {
-    opacity: 0.55;
-    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+    transform: translate3d(-50%, -50%, 0) scale(1);
   }
   50% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.12);
+    transform: translate3d(-50%, -50%, 0) scale(1.14);
   }
 }
 @keyframes grow-x {
