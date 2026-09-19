@@ -74,15 +74,18 @@ export function ResultCard({
 
   return (
     <section
-      className="animate-fade-in rounded-3xl border bg-card p-5 shadow-sm sm:p-7"
+      className="animate-fade-in relative overflow-hidden rounded-3xl border border-white/60 dark:border-white/10 bg-gradient-to-b from-card/85 to-card/55 backdrop-blur-2xl p-5 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.06)] dark:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.4)] sm:p-7"
       aria-labelledby="result-heading"
     >
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
             {t("yourResult")}
           </p>
-          <h2 id="result-heading" className="mt-1 truncate text-2xl font-bold text-foreground">
+          <h2
+            id="result-heading"
+            className="mt-1 truncate text-2xl font-extrabold tracking-tight text-foreground"
+          >
             {result.disease}
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -96,7 +99,11 @@ export function ResultCard({
         </div>
         <Badge
           variant="outline"
-          className={`shrink-0 rounded-full ${result.healthy ? "border-fern/40 bg-fern/15 text-fern-ink" : "border-amber/50 bg-amber/20 text-amber-ink"}`}
+          className={`shrink-0 rounded-full border-white/60 dark:border-white/15 px-3 py-1 shadow-sm backdrop-blur-md ${
+            result.healthy
+              ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+              : "bg-coral/20 text-coral"
+          }`}
         >
           <Leaf className="size-3.5" aria-hidden="true" />{" "}
           {result.healthy ? t("healthy") : t("diseased")}
@@ -104,9 +111,9 @@ export function ResultCard({
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        <div className="rounded-2xl border bg-muted/40 p-4">
-          <p className="text-xs font-medium text-muted-foreground">Health score</p>
-          <p className="mt-1 text-2xl font-bold text-foreground">
+        <div className="rounded-2xl border border-white/60 dark:border-white/10 bg-white/60 dark:bg-white/5 p-4 shadow-sm backdrop-blur-md">
+          <p className="text-xs font-semibold text-muted-foreground">Health score</p>
+          <p className="mt-1 text-2xl font-extrabold text-foreground">
             {result.healthScore ?? (result.healthy ? 95 : 60)}/100
           </p>
           <Progress
@@ -117,15 +124,15 @@ export function ResultCard({
             {healthLabel(result.healthScore ?? (result.healthy ? 95 : 60))}
           </p>
         </div>
-        <div className="rounded-2xl border bg-muted/40 p-4">
-          <p className="text-xs font-medium text-muted-foreground">{t("confidence")}</p>
-          <p className="mt-1 text-2xl font-bold text-foreground">{result.confidence}%</p>
+        <div className="rounded-2xl border border-white/60 dark:border-white/10 bg-white/60 dark:bg-white/5 p-4 shadow-sm backdrop-blur-md">
+          <p className="text-xs font-semibold text-muted-foreground">{t("confidence")}</p>
+          <p className="mt-1 text-2xl font-extrabold text-foreground">{result.confidence}%</p>
           <Progress value={result.confidence} className="mt-2 h-1.5" />
           <p className="mt-2 text-xs text-muted-foreground">{confidence.label}</p>
         </div>
-        <div className="rounded-2xl border bg-muted/40 p-4">
-          <p className="text-xs font-medium text-muted-foreground">{t("severity")}</p>
-          <p className="mt-1 text-2xl font-bold text-foreground">{result.severity}</p>
+        <div className="rounded-2xl border border-white/60 dark:border-white/10 bg-white/60 dark:bg-white/5 p-4 shadow-sm backdrop-blur-md">
+          <p className="text-xs font-semibold text-muted-foreground">{t("severity")}</p>
+          <p className="mt-1 text-2xl font-extrabold text-foreground">{result.severity}</p>
           <Badge
             variant="outline"
             className={`mt-2 rounded-full ${severityTone[result.severity] ?? ""}`}
@@ -133,9 +140,9 @@ export function ResultCard({
             <ShieldCheck className="size-3.5" aria-hidden="true" /> {result.severity} risk
           </Badge>
         </div>
-        <div className="rounded-2xl border bg-muted/40 p-4">
-          <p className="text-xs font-medium text-muted-foreground">{t("photoQuality")}</p>
-          <p className="mt-1 text-2xl font-bold text-foreground">{result.quality}</p>
+        <div className="rounded-2xl border border-white/60 dark:border-white/10 bg-white/60 dark:bg-white/5 p-4 shadow-sm backdrop-blur-md">
+          <p className="text-xs font-semibold text-muted-foreground">{t("photoQuality")}</p>
+          <p className="mt-1 text-2xl font-extrabold text-foreground">{result.quality}</p>
           <p className="mt-2 text-xs text-muted-foreground">Better photos give better results.</p>
         </div>
         <div className="rounded-2xl border bg-muted/40 p-4">

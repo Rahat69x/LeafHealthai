@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Leaf, ShieldCheck } from "lucide-react";
+import { Bot, Send, Sparkles, User } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -49,16 +49,24 @@ export function PlantChat({ result }: { result?: AnalysisResult | null }) {
   }
 
   return (
-    <section className="rounded-3xl border bg-card p-5 shadow-sm" aria-labelledby="chat-heading">
-      <h2 id="chat-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
-        <ShieldCheck className="size-5 text-primary" aria-hidden="true" /> Ask the plant doctor
-      </h2>
+    <section
+      className="relative overflow-hidden rounded-3xl border border-white/60 dark:border-white/10 bg-gradient-to-b from-card/85 to-card/55 backdrop-blur-2xl p-5 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.06)] dark:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.4)] sm:p-7"
+      aria-labelledby="chat-heading"
+    >
+      <div className="flex items-center gap-2.5">
+        <span className="glass-icon-3d size-9 rounded-xl">
+          <Bot className="size-5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+        </span>
+        <h2 id="chat-heading" className="text-lg font-extrabold tracking-tight text-foreground">
+          Ask the plant doctor
+        </h2>
+      </div>
       <p className="mt-1 text-sm text-muted-foreground">
-        Ask anything about your plant.{" "}
-        {result ? "Answers use your last scan." : "Scan a leaf first for better answers."}
+        Ask anything about your crop or leaf symptoms.{" "}
+        {result ? "Answers use your last scan." : "Scan a leaf first for personalized answers."}
       </p>
 
-      <div className="mt-4 max-h-80 space-y-3 overflow-y-auto" aria-live="polite">
+      <div className="mt-5 max-h-80 space-y-3 overflow-y-auto pr-1" aria-live="polite">
         {turns.length === 0 && (
           <div className="flex flex-wrap gap-2">
             {SUGGESTIONS.map((item) => (
@@ -66,39 +74,55 @@ export function PlantChat({ result }: { result?: AnalysisResult | null }) {
                 key={item}
                 variant="outline"
                 size="sm"
-                className="rounded-full"
+                className="rounded-full h-8 px-3 text-xs"
                 onClick={() => void send(item)}
               >
+                <Sparkles className="size-3 text-emerald-600 dark:text-emerald-400 mr-1" />
                 {item}
               </Button>
             ))}
           </div>
         )}
         {turns.map((turn, index) => (
-          <div key={index} className={`flex gap-2 ${turn.role === "user" ? "justify-end" : ""}`}>
+          <div
+            key={index}
+            className={`flex gap-2.5 items-end ${turn.role === "user" ? "justify-end" : ""}`}
+          >
             {turn.role === "assistant" && (
-              <ShieldCheck className="mt-1 size-4 shrink-0 text-primary" aria-hidden="true" />
+              <span className="glass-icon-3d size-7 rounded-lg shrink-0 mb-1">
+                <Bot
+                  className="size-3.5 text-emerald-600 dark:text-emerald-400"
+                  aria-hidden="true"
+                />
+              </span>
             )}
             <p
-              className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm ${
+              className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm ${
                 turn.role === "user"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-foreground"
+                  ? "bg-gradient-to-b from-fern to-forest text-white rounded-br-sm"
+                  : "border border-white/60 dark:border-white/10 bg-white/70 dark:bg-white/10 text-foreground backdrop-blur-md rounded-bl-sm"
               }`}
             >
               {turn.content}
             </p>
             {turn.role === "user" && (
-              <Leaf className="mt-1 size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+              <span className="glass-icon-3d size-7 rounded-lg shrink-0 mb-1">
+                <User className="size-3.5 text-muted-foreground" aria-hidden="true" />
+              </span>
             )}
           </div>
         ))}
-        {busy && <p className="text-sm text-muted-foreground">The plant doctor is thinking...</p>}
+        {busy && (
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Sparkles className="size-4 animate-spin text-emerald-600" />
+            <span>The plant doctor is thinking...</span>
+          </div>
+        )}
         <div ref={endRef} />
       </div>
 
       <form
-        className="mt-4 flex gap-2"
+        className="mt-5 flex gap-2.5"
         onSubmit={(event) => {
           event.preventDefault();
           void send(input);
@@ -110,15 +134,17 @@ export function PlantChat({ result }: { result?: AnalysisResult | null }) {
           placeholder="Type your question..."
           aria-label="Your question"
           maxLength={500}
+          className="min-h-11 rounded-xl border-white/60 dark:border-white/10 bg-white/50 dark:bg-white/5 shadow-sm backdrop-blur-md"
         />
         <Button
           type="submit"
           size="icon"
-          className="min-h-11 min-w-11"
+          variant="default"
+          className="size-11 rounded-xl shrink-0 shadow-md"
           disabled={busy}
           aria-label="Send question"
         >
-          <Leaf aria-hidden="true" />
+          <Send className="size-4.5" aria-hidden="true" />
         </Button>
       </form>
     </section>

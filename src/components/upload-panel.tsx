@@ -1,5 +1,15 @@
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
-import { Leaf, ShieldCheck } from "lucide-react";
+import {
+  Camera,
+  Leaf,
+  RotateCw,
+  Sparkles,
+  Trash2,
+  Upload,
+  ZoomIn,
+  ZoomOut,
+  ShieldCheck,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -75,23 +85,27 @@ export function UploadPanel({
 
   return (
     <section
-      className="rounded-3xl border bg-card p-5 shadow-sm sm:p-7"
+      className="relative overflow-hidden rounded-3xl border border-white/60 dark:border-white/10 bg-gradient-to-b from-card/85 to-card/55 backdrop-blur-2xl p-5 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.06)] dark:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.4)] sm:p-7"
       aria-labelledby="upload-heading"
     >
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
             Step 1
           </p>
           <h2
             id="upload-heading"
-            className="truncate text-xl font-bold text-foreground sm:text-2xl"
+            className="truncate text-xl font-extrabold tracking-tight text-foreground sm:text-2xl"
           >
             Add a leaf photo
           </h2>
         </div>
-        <Badge variant="outline" className="shrink-0 gap-1 rounded-full py-1">
-          <Leaf className="size-3.5" aria-hidden="true" /> Free check
+        <Badge
+          variant="outline"
+          className="shrink-0 gap-1.5 rounded-full border-white/60 dark:border-white/15 bg-white/70 dark:bg-white/10 px-3 py-1 shadow-sm backdrop-blur-md text-foreground"
+        >
+          <Leaf className="size-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />{" "}
+          Free check
         </Badge>
       </div>
 
@@ -128,27 +142,25 @@ export function UploadPanel({
           }}
           onDragLeave={() => setDragging(false)}
           onDrop={handleDrop}
-          className={`mt-5 rounded-2xl border-2 border-dashed p-6 text-center transition-colors sm:p-10 ${
-            dragging ? "border-primary bg-primary/5" : "border-input bg-muted/40"
+          className={`mt-5 rounded-2xl border-2 border-dashed p-6 text-center transition-all duration-200 sm:p-10 ${
+            dragging
+              ? "border-emerald-500 bg-emerald-500/10 shadow-[0_0_24px_rgba(16,185,129,0.2)]"
+              : "border-white/60 dark:border-white/15 bg-white/40 dark:bg-white/5 backdrop-blur-md hover:bg-white/60 dark:hover:bg-white/10"
           }`}
         >
-          <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-primary/10 text-primary">
-            <Leaf aria-hidden="true" />
+          <div className="mx-auto glass-icon-3d size-16 rounded-2xl">
+            <Upload className="size-7 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
           </div>
-          <p className="mt-4 text-base font-semibold text-foreground">Drop a photo here</p>
+          <p className="mt-4 text-base font-bold text-foreground">Drop a photo here</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Or choose a file, take a photo, or paste with Ctrl + V.
           </p>
-          <div className="mt-5 flex flex-wrap justify-center gap-2">
-            <Button className="min-h-11" onClick={() => inputRef.current?.click()}>
-              <Leaf aria-hidden="true" /> Choose photo
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Button size="lg" variant="default" onClick={() => inputRef.current?.click()}>
+              <Upload className="size-4" aria-hidden="true" /> Choose photo
             </Button>
-            <Button
-              variant="outline"
-              className="min-h-11"
-              onClick={() => cameraRef.current?.click()}
-            >
-              <Leaf aria-hidden="true" /> Use camera
+            <Button size="lg" variant="outline" onClick={() => cameraRef.current?.click()}>
+              <Camera className="size-4" aria-hidden="true" /> Use camera
             </Button>
           </div>
           <p className="mt-4 text-xs text-muted-foreground">
@@ -159,7 +171,7 @@ export function UploadPanel({
 
       {check && (
         <div className="mt-5 space-y-4">
-          <div className="relative overflow-hidden rounded-2xl border bg-muted">
+          <div className="relative overflow-hidden rounded-2xl border border-white/60 dark:border-white/15 bg-muted shadow-md">
             <div className="flex h-64 items-center justify-center sm:h-80">
               <img
                 src={check.preview}
@@ -171,72 +183,74 @@ export function UploadPanel({
               />
             </div>
             {check.cropped && (
-              <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-foreground">
+              <span className="absolute left-3 top-3 rounded-full border border-white/60 dark:border-white/15 bg-white/80 dark:bg-slate-900/80 px-3 py-1 text-xs font-semibold text-foreground shadow-sm backdrop-blur-xl">
                 Leaf found and cut out
               </span>
             )}
             <div className="absolute bottom-3 right-3 flex gap-1.5">
               <Button
                 size="icon"
-                variant="secondary"
+                variant="outline"
                 aria-label="Zoom in"
-                className="min-h-11 min-w-11 rounded-full"
+                className="size-10 rounded-full shadow-md"
                 onClick={() => setZoom((z) => Math.min(3, z + 0.25))}
               >
-                <Leaf aria-hidden="true" />
+                <ZoomIn className="size-4" aria-hidden="true" />
               </Button>
               <Button
                 size="icon"
-                variant="secondary"
+                variant="outline"
                 aria-label="Zoom out"
-                className="min-h-11 min-w-11 rounded-full"
+                className="size-10 rounded-full shadow-md"
                 onClick={() => setZoom((z) => Math.max(1, z - 0.25))}
               >
-                <Leaf aria-hidden="true" />
+                <ZoomOut className="size-4" aria-hidden="true" />
               </Button>
               <Button
                 size="icon"
-                variant="secondary"
+                variant="outline"
                 aria-label="Rotate photo"
-                className="min-h-11 min-w-11 rounded-full"
+                className="size-10 rounded-full shadow-md"
                 onClick={() => setRotation((r) => (r + 90) % 360)}
               >
-                <Leaf aria-hidden="true" />
+                <RotateCw className="size-4" aria-hidden="true" />
               </Button>
               <Button
                 size="icon"
-                variant="secondary"
+                variant="destructive"
                 aria-label="Remove photo"
-                className="min-h-11 min-w-11 rounded-full"
+                className="size-10 rounded-full shadow-md"
                 onClick={onClear}
               >
-                <Leaf aria-hidden="true" />
+                <Trash2 className="size-4" aria-hidden="true" />
               </Button>
             </div>
           </div>
 
           <QualityAssistant check={check} />
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-3">
             <Button
-              className="min-h-11 flex-1 sm:flex-none"
+              size="lg"
+              variant="default"
+              className="flex-1 sm:flex-none shadow-lg"
               disabled={poor || busy}
               onClick={onAnalyse}
             >
               {analysing ? (
-                <Leaf className="animate-spin" aria-hidden="true" />
+                <Sparkles className="size-4 animate-spin" aria-hidden="true" />
               ) : (
-                <Leaf aria-hidden="true" />
+                <Sparkles className="size-4" aria-hidden="true" />
               )}
               {analysing ? "Checking the leaf..." : "Analyse leaf"}
             </Button>
             <Button
+              size="lg"
               variant="outline"
-              className="min-h-11"
               disabled={busy}
               onClick={() => inputRef.current?.click()}
             >
-              <Leaf aria-hidden="true" /> Replace photo
+              <Upload className="size-4" aria-hidden="true" /> Replace photo
             </Button>
           </div>
           {poor && !check.reason && (
@@ -248,13 +262,16 @@ export function UploadPanel({
         </div>
       )}
 
-      <div className="mt-6 rounded-2xl border border-dashed p-4">
-        <h3 className="text-sm font-semibold text-foreground">Tips for a good photo</h3>
-        <ul className="mt-2 grid gap-1.5 text-sm text-muted-foreground sm:grid-cols-2">
+      <div className="mt-6 rounded-2xl border border-white/60 dark:border-white/10 bg-white/40 dark:bg-white/5 p-4 backdrop-blur-md">
+        <h3 className="text-sm font-bold text-foreground">Tips for a good photo</h3>
+        <ul className="mt-2.5 grid gap-2 text-sm text-muted-foreground sm:grid-cols-2">
           {TIPS.map((tip) => (
-            <li key={tip} className="flex gap-2">
-              <ShieldCheck className="mt-0.5 size-4 shrink-0 text-fern-ink" aria-hidden="true" />
-              <span>{tip}</span>
+            <li key={tip} className="flex gap-2 items-start">
+              <ShieldCheck
+                className="mt-0.5 size-4 shrink-0 text-emerald-600 dark:text-emerald-400"
+                aria-hidden="true"
+              />
+              <span className="text-xs sm:text-sm">{tip}</span>
             </li>
           ))}
         </ul>

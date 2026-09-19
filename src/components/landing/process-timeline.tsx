@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Droplet, Leaf, ShieldCheck } from "lucide-react";
+import { Droplet, Leaf, ShieldCheck, Sparkles, Wand2 } from "lucide-react";
 
 import { usePrefersReducedMotion, useReveal } from "./use-reveal";
 
@@ -10,12 +10,12 @@ const STEPS = [
     text: "Drag, paste or snap one leaf or many. We compress it for slow connections.",
   },
   {
-    icon: ShieldCheck,
+    icon: Sparkles,
     title: "Detect leaf",
     text: "Stage one finds every leaf in the photo, one or twenty, and checks the photo quality.",
   },
   {
-    icon: Leaf,
+    icon: Wand2,
     title: "AI analysis",
     text: "Vision model reads colour, texture and lesion shape across the blade.",
   },
@@ -38,7 +38,7 @@ export function ProcessTimeline() {
 
   useEffect(() => {
     if (!shown || reduced) return;
-    const id = setInterval(() => setActive((a) => (a + 1) % STEPS.length), 1800);
+    const id = setInterval(() => setActive((a) => (a + 1) % STEPS.length), 2200);
     return () => clearInterval(id);
   }, [shown, reduced]);
 
@@ -47,40 +47,63 @@ export function ProcessTimeline() {
       ref={ref}
       id="how-it-works"
       aria-label="How the AI works"
-      className="rounded-3xl border border-border bg-card p-5 sm:p-8"
+      className="relative overflow-hidden rounded-3xl border border-white/60 dark:border-white/10 bg-gradient-to-b from-card/85 to-card/50 backdrop-blur-2xl p-5 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.06)] dark:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.4)] sm:p-8"
     >
-      <h2 className="text-xl font-bold text-foreground sm:text-2xl">How the AI works</h2>
-      <ol className="mt-6 grid gap-4 md:grid-cols-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 className="text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">
+            How the AI works
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            A 5-stage vision and agronomy pipeline executing on every scan.
+          </p>
+        </div>
+        <span className="rounded-full border border-white/60 dark:border-white/15 bg-white/70 dark:bg-white/10 px-3 py-1 text-xs font-semibold text-muted-foreground shadow-sm backdrop-blur-md">
+          Step {active + 1} of 5
+        </span>
+      </div>
+
+      <ol className="mt-7 grid gap-4 md:grid-cols-5">
         {STEPS.map((s, i) => {
           const on = i === active;
+          const Icon = s.icon;
+
           return (
             <li
               key={s.title}
-              className={`relative rounded-2xl border p-4 transition-all duration-500 ${
+              className={`relative overflow-hidden rounded-2xl border p-4 transition-all duration-500 ${
                 on
-                  ? "-translate-y-1 border-fern bg-fern/10 shadow-md"
-                  : "border-border bg-background"
+                  ? "-translate-y-1.5 border-emerald-500/50 bg-white/90 dark:bg-emerald-950/40 shadow-[0_12px_28px_-6px_rgba(47,122,63,0.25),inset_0_1px_1px_rgba(255,255,255,0.9)] backdrop-blur-xl"
+                  : "border-white/50 dark:border-white/10 bg-white/60 dark:bg-white/5 shadow-sm backdrop-blur-md hover:bg-white/80"
               }`}
             >
               <span
-                className={`inline-flex h-12 w-12 items-center justify-center rounded-xl transition-colors ${
-                  on ? "bg-fern/25" : "bg-muted"
+                className={`glass-icon-3d size-12 shrink-0 rounded-2xl transition-all duration-300 ${
+                  on
+                    ? "animate-[water-ripple_1.2s_ease-out] shadow-[0_4px_16px_rgba(47,122,63,0.35)]"
+                    : ""
                 }`}
               >
-                <s.icon
+                <Icon
                   aria-hidden="true"
-                  strokeWidth={1.6}
-                  className={`size-6 text-primary transition-opacity duration-500 ${on ? "opacity-100" : "opacity-60"}`}
+                  strokeWidth={1.8}
+                  className={`size-6 transition-all duration-500 ${
+                    on ? "text-emerald-600 dark:text-emerald-400 scale-105" : "text-foreground/70"
+                  }`}
                 />
               </span>
 
-              <h3 className="mt-3 text-sm font-bold text-foreground">
+              <h3 className="mt-3.5 text-sm font-bold text-foreground">
                 {i + 1}. {s.title}
               </h3>
-              <p className="mt-1 text-xs text-muted-foreground">{s.text}</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.text}</p>
+
               <span
-                className="mt-3 block h-1 rounded-full bg-fern transition-all duration-500"
-                style={{ width: on ? "100%" : "18%", opacity: on ? 1 : 0.3 }}
+                className="mt-3.5 block h-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 shadow-sm transition-all duration-500"
+                style={{
+                  width: on ? "100%" : "18%",
+                  opacity: on ? 1 : 0.25,
+                }}
               />
             </li>
           );

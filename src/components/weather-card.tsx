@@ -1,5 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Droplet, Leaf } from "lucide-react";
+import {
+  CloudRain,
+  Droplets,
+  Gauge,
+  MapPin,
+  RefreshCw,
+  Sun,
+  Thermometer,
+  Wind,
+  Leaf,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
@@ -18,8 +28,8 @@ import {
 } from "@/lib/weather";
 
 export const riskTone: Record<string, string> = {
-  Low: "border-fern/40 bg-fern/15 text-fern-ink",
-  Medium: "border-amber/50 bg-amber/20 text-amber-ink",
+  Low: "border-emerald-500/40 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
+  Medium: "border-amber-500/50 bg-amber-500/20 text-amber-700 dark:text-amber-300",
   High: "border-destructive/40 bg-destructive/10 text-destructive-ink",
   "Very High": "border-destructive bg-destructive/20 text-destructive-ink",
 };
@@ -59,8 +69,13 @@ export function WeatherCard({
         setFromCache(false);
         cacheReport(next);
         publish(next);
-      } catch {
-        if (!quiet) toast.error("We could not get the weather. Please try again.");
+        if (!quiet) toast.success(`Weather loaded for ${next.place}.`);
+      } catch (error) {
+        if (!quiet) {
+          toast.error(
+            error instanceof Error ? error.message : "Could not load weather. Please try again.",
+          );
+        }
       } finally {
         setLoading(false);
       }
@@ -69,10 +84,7 @@ export function WeatherCard({
   );
 
   const loadPlace = useCallback(
-    (place: Place, quiet = false) => {
-      lastPlace.current = place;
-      return run(() => getWeatherReport(place), quiet);
-    },
+    (place: Place, quiet = false) => run(() => getWeatherReport(place), quiet),
     [run],
   );
 
@@ -100,8 +112,7 @@ export function WeatherCard({
             );
         });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [autoLocate, loadPlace, publish]);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -133,43 +144,44 @@ export function WeatherCard({
 
   return (
     <section
-      className="rounded-3xl border bg-card p-5 shadow-sm sm:p-7"
+      className="relative overflow-hidden rounded-3xl border border-white/60 dark:border-white/10 bg-gradient-to-b from-card/85 to-card/55 backdrop-blur-2xl p-5 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.06)] dark:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.4)] sm:p-7"
       aria-labelledby="weather-heading"
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 id="weather-heading" className="text-lg font-bold text-foreground">
+        <h2 id="weather-heading" className="text-lg font-extrabold tracking-tight text-foreground">
           {t("weatherTitle")}
         </h2>
         {report && (
           <Button
             variant="ghost"
             size="sm"
-            className="min-h-9 rounded-full"
+            className="h-8.5 rounded-full text-xs"
             onClick={() => lastPlace.current && loadPlace(lastPlace.current)}
             disabled={loading}
           >
-            <Leaf className={loading ? "animate-spin" : ""} aria-hidden="true" /> Refresh
+            <RefreshCw className={`size-3.5 ${loading ? "animate-spin" : ""}`} aria-hidden="true" />{" "}
+            Refresh
           </Button>
         )}
       </div>
       <p className="mt-1 text-sm text-muted-foreground">
-        Wet and warm days help leaf disease grow. Weather updates by itself every 10 minutes.
+        Wet and warm days help leaf disease grow. Weather updates automatically every 10 minutes.
       </p>
 
-      <div className="mt-4 grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto_auto]">
+      <div className="mt-4 grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto_auto]">
         <Input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={(event) => event.key === "Enter" && byName()}
-          placeholder="Search any city"
-          aria-label="Search any city"
-          className="min-h-11"
+          placeholder="Search any city or region"
+          aria-label="Search any city or region"
+          className="min-h-11 rounded-xl border-white/60 dark:border-white/10 bg-white/50 dark:bg-white/5 shadow-sm backdrop-blur-md"
         />
-        <Button className="min-h-11" onClick={byName} disabled={loading}>
-          {loading ? <Leaf className="animate-spin" aria-hidden="true" /> : null} Check
+        <Button size="lg" variant="default" onClick={byName} disabled={loading}>
+          {loading ? <RefreshCw className="size-4 animate-spin" aria-hidden="true" /> : null} Check
         </Button>
-        <Button variant="outline" className="min-h-11" onClick={byGps} disabled={loading}>
-          <Droplet aria-hidden="true" /> Use my location
+        <Button size="lg" variant="outline" onClick={byGps} disabled={loading}>
+          <MapPin className="size-4" aria-hidden="true" /> Use my location
         </Button>
       </div>
 
@@ -177,9 +189,9 @@ export function WeatherCard({
         <div className="mt-5 animate-fade-in space-y-4">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-foreground">{report.place}</p>
+              <p className="truncate text-base font-bold text-foreground">{report.place}</p>
               <p className="text-xs text-muted-foreground">
-                {fromCache ? "Saved copy (no internet)" : "Updated"} at{" "}
+                {fromCache ? "Saved copy (offline)" : "Updated"} at{" "}
                 {new Date(report.updatedAt).toLocaleTimeString(undefined, {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -188,7 +200,9 @@ export function WeatherCard({
             </div>
             <Badge
               variant="outline"
-              className={`shrink-0 rounded-full ${riskTone[report.level] ?? ""}`}
+              className={`shrink-0 rounded-full border-white/60 dark:border-white/15 px-3 py-1 shadow-sm backdrop-blur-md ${
+                riskTone[report.level] ?? ""
+              }`}
             >
               {report.level} risk today
             </Badge>
@@ -196,13 +210,13 @@ export function WeatherCard({
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {[
-              { icon: Droplet, label: "Temperature", value: `${now.temperature}°C` },
-              { icon: Droplet, label: "Humidity", value: `${now.humidity}%` },
-              { icon: Droplet, label: "Rain chance", value: `${now.rainChance}%` },
-              { icon: Droplet, label: "Wind speed", value: `${now.wind} km/h` },
-              { icon: Droplet, label: "UV index", value: `${now.uvIndex}` },
+              { icon: Thermometer, label: "Temperature", value: `${now.temperature}°C` },
+              { icon: Droplets, label: "Humidity", value: `${now.humidity}%` },
+              { icon: CloudRain, label: "Rain chance", value: `${now.rainChance}%` },
+              { icon: Wind, label: "Wind speed", value: `${now.wind} km/h` },
+              { icon: Sun, label: "UV index", value: `${now.uvIndex}` },
               {
-                icon: Leaf,
+                icon: Gauge,
                 label: "Air quality",
                 value:
                   now.airQuality === null
@@ -210,26 +224,34 @@ export function WeatherCard({
                     : `${now.airQuality} · ${now.airQualityLabel}`,
               },
             ].map((item) => (
-              <div key={item.label} className="rounded-2xl border bg-muted/40 p-3">
-                <item.icon className="size-4 text-primary" aria-hidden="true" />
-                <p className="mt-2 text-xs text-muted-foreground">{item.label}</p>
-                <p className="text-base font-bold text-foreground sm:text-lg">{item.value}</p>
+              <div
+                key={item.label}
+                className="rounded-2xl border border-white/60 dark:border-white/10 bg-white/60 dark:bg-white/5 p-3.5 shadow-sm backdrop-blur-md"
+              >
+                <div className="glass-icon-3d size-8 rounded-xl mb-1.5">
+                  <item.icon
+                    className="size-4 text-emerald-600 dark:text-emerald-400"
+                    aria-hidden="true"
+                  />
+                </div>
+                <p className="mt-1 text-xs font-semibold text-muted-foreground">{item.label}</p>
+                <p className="text-base font-extrabold text-foreground sm:text-lg">{item.value}</p>
               </div>
             ))}
           </div>
 
-          <p className="rounded-2xl border bg-muted/30 p-3 text-sm text-foreground">
+          <p className="rounded-2xl border border-white/60 dark:border-white/10 bg-white/50 dark:bg-white/5 p-3.5 text-sm leading-relaxed text-foreground backdrop-blur-md">
             {report.reason}
           </p>
 
           <ul className="space-y-1.5 text-sm text-muted-foreground">
             {report.advice.map((line: string) => (
-              <li key={line} className="flex gap-2">
+              <li key={line} className="flex gap-2 items-start">
                 <span
-                  className="mt-2 size-1.5 shrink-0 rounded-full bg-primary"
+                  className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-500"
                   aria-hidden="true"
                 />
-                <span>{line}</span>
+                <span className="text-xs sm:text-sm">{line}</span>
               </li>
             ))}
           </ul>

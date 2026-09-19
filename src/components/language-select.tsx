@@ -1,4 +1,4 @@
-import { Leaf } from "lucide-react";
+import { Languages } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,25 +20,29 @@ export function LanguageSelect() {
         <Button
           variant="outline"
           size="icon"
-          className="min-h-11 min-w-11 rounded-full"
+          className="size-10 rounded-full shadow-sm"
           aria-label={t("language")}
         >
-          <Leaf aria-hidden="true" />
+          <Languages className="size-4.5" aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-60">
+      <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>{t("language")}</DropdownMenuLabel>
         {LANGS.map((item) => (
           <DropdownMenuItem
             key={item.code}
             onClick={() => setLang(item.code)}
-            className={lang === item.code ? "font-semibold text-primary" : ""}
+            className={
+              lang === item.code
+                ? "font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10"
+                : ""
+            }
           >
             {item.label}
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
-        <p className="px-2 py-1.5 text-xs text-muted-foreground">{t("langNote")}</p>
+        <p className="px-2.5 py-1 text-[11px] text-muted-foreground">{t("langNote")}</p>
       </DropdownMenuContent>
     </DropdownMenu>
   );

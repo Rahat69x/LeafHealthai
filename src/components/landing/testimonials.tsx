@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Leaf } from "lucide-react";
+import { Quote } from "lucide-react";
 
 import { TESTIMONIALS } from "@/lib/landing-data";
 import { usePrefersReducedMotion } from "./use-reveal";
@@ -19,17 +19,25 @@ export function Testimonials() {
   return (
     <section
       aria-label="What growers say"
-      className="rounded-3xl border border-border bg-card p-5 sm:p-8"
+      className="relative overflow-hidden rounded-3xl border border-white/60 dark:border-white/10 bg-gradient-to-b from-card/85 to-card/50 backdrop-blur-2xl p-5 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.06)] dark:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.4)] sm:p-8"
     >
-      <h2 className="text-xl font-bold text-foreground sm:text-2xl">What growers say</h2>
+      <h2 className="text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">
+        What growers say
+      </h2>
       <figure key={i} className="mt-5 animate-fade-in">
-        <Leaf className="h-6 w-6 text-fern-ink" aria-hidden />
-        <blockquote className="mt-2 max-w-2xl text-base text-foreground">{item.text}</blockquote>
-        <figcaption className="mt-3 text-sm text-muted-foreground">
-          {item.name} — {item.place}
+        <span className="glass-icon-3d size-11 rounded-2xl mb-3">
+          <Quote className="size-5 text-emerald-600 dark:text-emerald-400" aria-hidden />
+        </span>
+        <blockquote className="mt-2 max-w-2xl text-base sm:text-lg font-medium text-foreground leading-relaxed">
+          &ldquo;{item.text}&rdquo;
+        </blockquote>
+        <figcaption className="mt-4 text-sm font-semibold text-muted-foreground flex items-center gap-2">
+          <span className="text-foreground">{item.name}</span>
+          <span>·</span>
+          <span>{item.place}</span>
         </figcaption>
       </figure>
-      <div className="mt-5 flex gap-2">
+      <div className="mt-6 flex gap-2">
         {TESTIMONIALS.map((t, idx) => (
           <button
             key={t.name}
@@ -37,7 +45,11 @@ export function Testimonials() {
             aria-label={`Show review from ${t.name}`}
             aria-current={idx === i}
             onClick={() => setI(idx)}
-            className={`h-2 rounded-full transition-all ${idx === i ? "w-8 bg-fern" : "w-2 bg-muted"}`}
+            className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+              idx === i
+                ? "w-8 bg-gradient-to-r from-emerald-500 to-teal-400 shadow-sm"
+                : "w-2.5 bg-muted hover:bg-muted-foreground/30"
+            }`}
           />
         ))}
       </div>
