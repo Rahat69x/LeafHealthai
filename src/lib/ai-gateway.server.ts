@@ -38,15 +38,33 @@ export async function callGateway(
     Authorization: `Bearer ${key}`,
   };
 
-  const response = await fetch(gatewayUrl, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({
-      model: options.model ?? defaultModel,
-      messages,
-      ...(options.json ? { response_format: { type: "json_object" } } : {}),
-    }),
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 18000);
+
+  let response: Response;
+  try {
+    response = await fetch(gatewayUrl, {
+      method: "POST",
+      headers,
+      signal: controller.signal,
+      body: JSON.stringify({
+        model: options.model ?? defaultModel,
+        messages,
+        ...(options.json ? { response_format: { type: "json_object" } } : {}),
+      }),
+    });
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err instanceof Error && err.name === "AbortError") {
+      throw new GatewayError(504, "AI gateway request timed out.");
+    }
+    throw new GatewayError(
+      500,
+      err instanceof Error ? err.message : "AI gateway connection failed.",
+    );
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!response.ok) {
     const body = await response.text();

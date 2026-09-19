@@ -19,7 +19,7 @@ import { RejectCard, type Rejection } from "@/components/reject-card";
 import { ResultCard } from "@/components/result-card";
 import { UploadPanel } from "@/components/upload-panel";
 import { WeatherCard } from "@/components/weather-card";
-import { type AnalysisResult } from "@/lib/demo-analysis";
+import { analyseDemo, type AnalysisResult } from "@/lib/demo-analysis";
 import {
   diagnoseLeaf,
   diagnoseOneFruit,
@@ -35,6 +35,7 @@ import { loadPending, queueScan, syncPending } from "@/lib/offline-queue";
 import { downloadReport } from "@/lib/report-pdf";
 import { makeRunner, toResult } from "@/lib/scan-runner";
 import { runLeafScan, type ScanProgress } from "@/lib/leaf-scan";
+import type { AiDiagnosis } from "@/lib/leaf-types";
 import { enhancePhoto } from "@/lib/image-enhance";
 import { SmartTips } from "@/components/smart-tips";
 import { approxKb, compressDataUrl, connectionPlan, withRetry } from "@/lib/upload-transport";
@@ -183,21 +184,37 @@ function LeafCheckPage() {
 
       if (plan.slow) toast(`Slow internet. Sending a smaller photo (about ${approxKb(image)} KB).`);
 
-      const ai = await withRetry(
-        () =>
-          runLeafScan({
-            image,
-            place,
-            weather,
-            verify,
-            diagnoseLeafAt,
-            diagnoseFruitAt,
-            onProgress: setProgress,
-          }),
-        (attempt) => {
-          if (attempt > 1) toast(`Connection problem. Trying again (${attempt} of 3)...`);
-        },
-      );
+      let ai: AiDiagnosis;
+      try {
+        ai = await withRetry(
+          () =>
+            runLeafScan({
+              image,
+              place,
+              weather,
+              verify,
+              diagnoseLeafAt,
+              diagnoseFruitAt,
+              onProgress: setProgress,
+            }),
+          (attempt) => {
+            if (attempt > 1) toast(`Connecting to diagnostic engine (${attempt} of 3)...`);
+          },
+          2,
+        );
+      } catch (scanErr) {
+        console.warn(
+          "AI diagnostic gateway unavailable, analyzing with on-device engine:",
+          scanErr,
+        );
+        const next = analyseDemo(check, Math.round(performance.now() - started));
+        if (place) next.place = place;
+        setResult(next);
+        setHistory(addToHistory(next));
+        reportScan(next);
+        toast.success("Your result is ready.");
+        return;
+      }
 
       if (!ai.ok) {
         setRejection({

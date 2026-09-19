@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
 import {
   Camera,
+  ClipboardPaste,
   Leaf,
   RotateCw,
   Sparkles,
@@ -10,6 +11,7 @@ import {
   ZoomOut,
   ShieldCheck,
 } from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,6 +31,31 @@ const TIPS = [
 ];
 
 const ACCEPT = "image/*,.jpg,.jpeg,.png,.webp,.heic,.heif,.bmp,.tif,.tiff,.gif,.avif";
+
+function extractImageFromClipboard(dataTransfer: DataTransfer | null): File | null {
+  if (!dataTransfer) return null;
+  // 1. First check items (standard across Chrome, Edge, Windows screenshots)
+  if (dataTransfer.items && dataTransfer.items.length > 0) {
+    for (let i = 0; i < dataTransfer.items.length; i++) {
+      const item = dataTransfer.items[i];
+      if (item && item.type.startsWith("image/")) {
+        const file = item.getAsFile();
+        if (file) return file;
+      }
+    }
+  }
+  // 2. Check files
+  if (dataTransfer.files && dataTransfer.files.length > 0) {
+    for (let i = 0; i < dataTransfer.files.length; i++) {
+      const file = dataTransfer.files[i];
+      if (file && file.type.startsWith("image/")) {
+        return file;
+      }
+    }
+    return dataTransfer.files[0] ?? null;
+  }
+  return null;
+}
 
 interface UploadPanelProps {
   check: ImageCheck | null;
@@ -60,12 +87,45 @@ export function UploadPanel({
 
   useEffect(() => {
     function onPaste(event: ClipboardEvent) {
-      const file = Array.from(event.clipboardData?.files ?? [])[0];
-      if (file) onFile(file);
+      const file = extractImageFromClipboard(event.clipboardData);
+      if (file) {
+        event.preventDefault();
+        onFile(file);
+        toast.success("Photo pasted from clipboard!");
+      }
     }
     window.addEventListener("paste", onPaste);
     return () => window.removeEventListener("paste", onPaste);
   }, [onFile]);
+
+  async function handlePasteClick() {
+    try {
+      if (!navigator.clipboard?.read) {
+        toast.info("Press Ctrl + V directly on your keyboard to paste.");
+        return;
+      }
+      const clipboardItems = await navigator.clipboard.read();
+      for (const item of clipboardItems) {
+        const imageType = item.types.find((type) => type.startsWith("image/"));
+        if (imageType) {
+          const blob = await item.getType(imageType);
+          const ext = imageType.split("/")[1] || "png";
+          const file = new File([blob], `clipboard-${Date.now()}.${ext}`, {
+            type: imageType,
+            lastModified: Date.now(),
+          });
+          onFile(file);
+          toast.success("Photo pasted from clipboard!");
+          return;
+        }
+      }
+      toast.info(
+        "No image found in clipboard. Copy an image or screenshot first, then press Ctrl + V or click Paste.",
+      );
+    } catch {
+      toast.info("Press Ctrl + V directly on your keyboard to paste the copied image.");
+    }
+  }
 
   function handleInput(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -151,13 +211,36 @@ export function UploadPanel({
           <div className="mx-auto glass-icon-3d size-16 rounded-2xl">
             <Upload className="size-7 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
           </div>
-          <p className="mt-4 text-base font-bold text-foreground">Drop a photo here</p>
+          <p className="mt-4 text-base font-bold text-foreground">
+            Drop a photo here, or press{" "}
+            <kbd className="inline-flex items-center px-2 py-0.5 rounded-md border border-white/80 dark:border-white/20 bg-white/80 dark:bg-slate-800 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 shadow-xs">
+              Ctrl + V
+            </kbd>{" "}
+            to paste
+          </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Or choose a file, take a photo, or paste with Ctrl + V.
+            Choose a file, paste from clipboard, or capture with camera.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Button size="lg" variant="default" onClick={() => inputRef.current?.click()}>
+            <Button
+              size="lg"
+              variant="default"
+              onClick={() => inputRef.current?.click()}
+              className="shadow-md"
+            >
               <Upload className="size-4" aria-hidden="true" /> Choose photo
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={handlePasteClick}
+              className="gap-2 border-emerald-500/30 hover:border-emerald-500/60 bg-emerald-500/10 hover:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-semibold shadow-xs"
+            >
+              <ClipboardPaste
+                className="size-4 text-emerald-600 dark:text-emerald-400"
+                aria-hidden="true"
+              />{" "}
+              Paste (Ctrl + V)
             </Button>
             <Button size="lg" variant="outline" onClick={() => cameraRef.current?.click()}>
               <Camera className="size-4" aria-hidden="true" /> Use camera
@@ -251,6 +334,19 @@ export function UploadPanel({
               onClick={() => inputRef.current?.click()}
             >
               <Upload className="size-4" aria-hidden="true" /> Replace photo
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              disabled={busy}
+              onClick={handlePasteClick}
+              className="gap-1.5"
+            >
+              <ClipboardPaste
+                className="size-4 text-emerald-600 dark:text-emerald-400"
+                aria-hidden="true"
+              />{" "}
+              Paste new (Ctrl + V)
             </Button>
           </div>
           {poor && !check.reason && (
